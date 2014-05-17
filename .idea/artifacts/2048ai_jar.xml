@@ -1,0 +1,20 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="2048ai:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/2048ai_jar</output-path>
+    <root id="archive" name="2048ai.jar">
+      <element id="module-output" name="2048ai" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/scala/lib/jline.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/scala/lib/scalap.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/scala/lib/diffutils.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/scala/lib/akka-actors.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/scala/lib/scala-swing.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/scala/lib/scala-actors.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/scala/lib/scala-library.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/scala/lib/scala-partest.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/scala/lib/scala-reflect.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/scala/lib/scala-compiler.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/scala/lib/typesafe-config.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="C:/Program Files (x86)/scala/lib/scala-actors-migration.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
