@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="2048ai">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/2048ai_jar/2048ai.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
