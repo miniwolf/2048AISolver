@@ -4,77 +4,32 @@ import util.control.Breaks._
 import gamelogic._
 import java.util.Random
 
-class GreedyAI(cGame: Game) extends AI {
-  game = cGame
+class GreedyAI(game: Game) extends AI {
+  override def eval(manager: GameManager): Int = {
+    val available: Int = manager.availableSpace.length
+    val emptyWeight: Double = 2.7
+    val highScore: Double = 1.0
 
-  override def eval: Int = {
-    val available: Int = game.availableSpace.length
-    val emptyWeight: Double = 1.0
-
-    (available * emptyWeight).toInt
+    (manager.score * highScore +
+    available * emptyWeight).toInt
   }
 
-  override def getBest: (Direction, Int, Int) = {
-    iterativeDeep
+  def tempAI(game: Game): GreedyAI = {
+    new GreedyAI(game)
   }
 
-  // http://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
-  def search(depth: Int, alpha: Int, beta: Int, cCutoffs: Int): (Direction, Int, Int) = {
-    var cutoffs = cCutoffs
-    var bestScore = alpha
-    var bestMove: Direction = NoDirection
-    var move: Direction = NoDirection
-    var score = alpha
-    var cutoff = 0
-
-    for ( direction <- List(Left, Right, Up, Down) ) {
-      val newGame = game.clone
-      if ( newGame.move(direction) ) {
-        if ( newGame.win )
-          return (direction, 10000, cutoffs)
-
-        val newAI = new GreedyAI(newGame)
-
-        if ( depth == 0 ) {
-          move = direction; score = newAI.eval
-        } else {
-          val (a, b, d) = newAI.search(depth - 1, bestScore, beta, cutoffs)
-          move = a; score = b; cutoff = d
-          if ( score > 9900 )
-            score -= 1 // win, slightly penalizing higher depth from win
-          cutoffs = cutoff
-        }
-
-        if ( score > bestScore ) {
-          bestScore = score
-          bestMove = direction
-        }
-
-        if ( bestScore > beta ) {
-          cutoffs += 1
-          return (bestMove, beta, cutoffs)
-        }
-      }
-    }
-
-    if ( bestMove == NoDirection ) {
-      bestMove = List(Right, Up, Down)(new Random().nextInt(3))
-    }
-    (bestMove, bestScore, cutoffs)
-  }
-
-  def iterativeDeep: (Direction, Int, Int) = {
-    var best: (Direction, Int, Int) = (null, 0, 0)
+  def iterativeDeep(manager: GameManager): Direction = {
+    var best: Direction = null
     breakable {
-    for (depth <- 0 to 4) {
-      val (move, score, cutoffs) = search(depth, -10000, 10000, 0)
-      if ( move == NoDirection ) {
+    for ( depth <- 0 to 6 ) {
+      val (move, _) = search(manager, game, depth, -10000, 10000)
+      if ( move == NoDirection )
         break()
-      } else {
-        best = (move, score, cutoffs)
-      }
+      else
+        best = move
     }
     }
+
     Thread.sleep(100)
     best
   }
