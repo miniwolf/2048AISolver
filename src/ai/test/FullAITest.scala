@@ -1,9 +1,10 @@
-package ai
+package ai.test
 
-import gamelogic._
+import ai.AI
+import gamelogic.{NoDirection, Direction, Game, GameManager}
 import scala.util.control.Breaks._
 
-class SmoothAI(game: Game) extends AI {
+class FullAITest(game: Game) extends AI {
   override def eval(manager: GameManager): Int = {
     val smoothWeight: Double = 0.1
     val available: Int = manager.availableSpace.length
@@ -11,12 +12,12 @@ class SmoothAI(game: Game) extends AI {
     val highScore: Double = 1.0
 
     (manager.score * highScore +
-     available * emptyWeight +
+     (available * emptyWeight * available * emptyWeight) +
      manager.smoothness * smoothWeight).toInt
   }
 
   def tempAI(game: Game): AI = {
-    new SmoothAI(game)
+    new FullAITest(game)
   }
 
   def iterativeDeep(manager: GameManager): Direction = {
