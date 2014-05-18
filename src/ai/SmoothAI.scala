@@ -3,7 +3,7 @@ package ai
 import gamelogic._
 
 class SmoothAI extends AI {
-  override def eval(manager: GameManager): Int = {
+  def eval(manager: GameManager): Int = {
     val smoothWeight: Double = 1.0
 
     (manager.smoothness * smoothWeight).toInt

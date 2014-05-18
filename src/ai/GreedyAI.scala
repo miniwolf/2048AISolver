@@ -3,7 +3,7 @@ package ai
 import gamelogic._
 
 class GreedyAI extends AI {
-  override def eval(manager: GameManager): Int = {
+  def eval(manager: GameManager): Int = {
     val available: Int = manager.availableSpace.length
     val emptyWeight: Double = 2.7
     val highScore: Double = 1.0

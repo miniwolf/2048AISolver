@@ -58,6 +58,66 @@ class GameManager(game: Game) {
     smoothness
   }
 
+  def monotonicity(): Double = {
+    val dirScore = Array.ofDim[Double](4)
+
+    // Up and Down. Going through all columns
+    for ( x <- 0 to 3 ) {
+      var current = 0
+      var next = current + 1
+      while ( next < 4 ) {
+        while ( next < 4 && !tileAt(x, next).isEmpty )
+          next += 1
+        if ( next >= 4 ) { next -= 1 }
+        val currentValue = if ( !tileAt(x, current).isEmpty )
+                             Math.log(tileAt(x, current).value) / Math.log(2)
+                           else 0
+        val nextValue = if ( !tileAt(x, next).isEmpty )
+                          Math.log(tileAt(x, next).value) / Math.log(2)
+                        else 0
+        if ( currentValue > nextValue )
+          dirScore(0) += nextValue - currentValue
+        else if ( nextValue > currentValue)
+          dirScore(1) += currentValue - nextValue
+        current = next
+        next += 1
+      }
+    }
+
+    // Left and right. Going through all rows
+    for ( y <- 0 to 3 ) {
+      var current = 0
+      var next = current + 1
+      while ( next < 4 ) {
+        while ( next < 4 && !tileAt(next, y).isEmpty )
+          next += 1
+        if ( next >= 4 ) { next -= 1 }
+        val currentValue = if ( !tileAt(current, y).isEmpty )
+                             Math.log(tileAt(current, y).value) / Math.log(2)
+                           else 0
+        val nextValue = if ( !tileAt(next, y).isEmpty )
+                          Math.log(tileAt(next, y).value) / Math.log(2)
+                        else 0
+        if ( currentValue > nextValue )
+          dirScore(2) += nextValue - currentValue
+        else if (nextValue > currentValue)
+          dirScore(3) += currentValue - nextValue
+        current = next
+        next += 1
+      }
+    }
+    Math.max(dirScore(0), dirScore(1)) + Math.max(dirScore(2), dirScore(3))
+  }
+
+  def maxValue = {
+    var max = 0
+    for ( x <- 0 to 3; y <- 0 to 3 ) if ( !tileAt(x,y).isEmpty ) {
+      val value = tileAt(x, y).value
+      if ( value > max ) max = value
+    }
+    Math.log(max) / Math.log(2)
+  }
+
   def insertTile(tile: Tile, x: Int, y: Int) {
     tiles(x + y * 4) = tile
   }

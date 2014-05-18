@@ -80,7 +80,7 @@ trait AI {
   def iterativeDeep(game: Game, manager: GameManager): Direction = {
     var best: Direction = NoDirection
     breakable {
-      for ( depth <- 0 to 5 ) {
+      for ( depth <- 0 to 6 ) {
         val (move, _) = search(manager, game, depth, -10000, 10000)
         if ( move == NoDirection )
           break()
@@ -89,7 +89,7 @@ trait AI {
       }
     }
 
-    Thread.sleep(100)
+    Thread.sleep(10)
     best
   }
 }
