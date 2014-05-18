@@ -21,13 +21,13 @@ object Game {
 
     manager = new GameManager(game)
     manager.resetGame()
-    ai = new SmoothAI(game)
+    ai = new SmoothAI
 
     /*for ( x <- 0 to 3; y <- 0 to 3 )
       println("(x" + x + ", y" + y + ") - " + manager.tileAt(x, y).value)*/
 
     while ( running ) {
-      manager = game.move(manager, ai.getBest(manager))
+      manager = game.move(manager, ai.getBest(game, manager))
       game.repaint()
     }
   }

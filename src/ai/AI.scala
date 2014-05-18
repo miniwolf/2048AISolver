@@ -2,6 +2,7 @@ package ai
 
 import gamelogic._
 import java.util
+import scala.util.control.Breaks._
 
 trait AI {
   /**
@@ -15,8 +16,8 @@ trait AI {
    * Calculates the best direction to move
    * according to the specific algorithm
    */
-  def getBest(manager: GameManager) : Direction = {
-    iterativeDeep(manager)
+  def getBest(game: Game, manager: GameManager) : Direction = {
+    iterativeDeep(game, manager)
   }
 
   /**
@@ -41,7 +42,7 @@ trait AI {
           return (direction, 10000)
         }
 
-        val newAI: AI = tempAI(game)
+        val newAI: AI = tempAI
         if ( depth == 0 ) {
           score = newAI.eval(newState)
         } else {
@@ -66,9 +67,8 @@ trait AI {
 
   /**
    * Helper method
-   * @param game Game logic and graphics
    */
-  def tempAI(game: Game): AI
+  def tempAI: AI
 
   /**
    * Iterate a number of times deeper into the search algorithm.
@@ -77,5 +77,19 @@ trait AI {
    * @return The optimal direction chosen by the algorithm.
    *         #see search
    */
-  def iterativeDeep(manager: GameManager): Direction
+  def iterativeDeep(game: Game, manager: GameManager): Direction = {
+    var best: Direction = NoDirection
+    breakable {
+      for ( depth <- 0 to 5 ) {
+        val (move, _) = search(manager, game, depth, -10000, 10000)
+        if ( move == NoDirection )
+          break()
+        else
+          best = move
+      }
+    }
+
+    Thread.sleep(100)
+    best
+  }
 }

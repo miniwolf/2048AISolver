@@ -1,6 +1,7 @@
 package gamelogic
 
 import java.util
+import scala.collection.immutable.HashMap
 
 object GameManager {
   private def ensureSize(l: util.List[Tile], s: Int) {
@@ -39,18 +40,18 @@ class GameManager(game: Game) {
     newState
   }
 
-  def smoothness = {
+  def smoothness: Double = {
     var smoothness = 0.0
     for ( x <- 0 until 4; y <- 0 until 4 ) if ( !tileAt(x, y).isEmpty ) {
-      val value = tileAt(x, y).value
+      val value = Math.log(tileAt(x, y).value) / Math.log(2)
       for ( direction <- List[Direction](Left, Right, Up, Down) ) {
-        val targetValue = direction match {
+        val targetValue = Math.log(direction match {
           case Left =>  if ( x - 1 >= 0 ) tileAt(x - 1, y).value else 0.0
           case Right => if ( x + 1 < 4 ) tileAt(x + 1, y).value else 0.0
           case Up =>    if ( y - 1 >= 0 ) tileAt(x, y - 1).value else 0.0
           case Down =>  if ( y + 1 < 4 ) tileAt(x, y + 1).value else 0.0
-        }
-        if ( targetValue != -Float.NegativeInfinity )
+        }) / Math.log(2)
+        if ( targetValue != Float.NegativeInfinity && targetValue != 0 )
           smoothness -= Math.abs(value - targetValue)
       }
     }
