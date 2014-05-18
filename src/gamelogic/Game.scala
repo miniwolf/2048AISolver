@@ -2,7 +2,7 @@ package gamelogic
 
 import javax.swing._
 import java.awt._
-import ai.{GreedyAI, AI, Mover}
+import ai.{SmoothAI, GreedyAI, AI, Mover}
 
 object Game {
   private def offsetCoors(arg: Int): Int = arg * (TILES_MARGIN + TILE_SIZE) + TILES_MARGIN
@@ -21,7 +21,7 @@ object Game {
 
     manager = new GameManager(game)
     manager.resetGame()
-    ai = new GreedyAI(game)
+    ai = new SmoothAI(game)
 
     while ( running ) {
       manager = game.move(manager, ai.getBest(manager))

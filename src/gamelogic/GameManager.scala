@@ -39,6 +39,25 @@ class GameManager(game: Game) {
     newState
   }
 
+  def smoothness = {
+    var smoothness = 0.0
+    for ( x <- 0 until 4; y <- 0 until 4 ) if ( !tileAt(x, y).isEmpty ) {
+      val value = Math.log(tileAt(x, y).value) / Math.log(2)
+      for ( direction <- List[Direction](Left, Right, Up, Down) ) {
+        val targetValue = direction match {
+          case Left =>  if ( x - 1 > 0 ) tileAt(x - 1, y).value else 0.0
+          case Right => if ( x + 1 < 3 ) tileAt(x + 1, y).value else 0.0
+          case Up =>    if ( y - 1 > 0 ) tileAt(x, y - 1).value else 0.0
+          case Down =>  if ( y + 1 < 3 ) tileAt(x, y + 1).value else 0.0
+        }
+
+        if ( targetValue != 0 )
+          smoothness -= Math.abs(value - targetValue)
+      }
+    }
+    smoothness
+  }
+
   def insertTile(tile: Tile, x: Int, y: Int) {
     tiles(x + y * 4) = tile
   }

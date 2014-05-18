@@ -14,7 +14,7 @@ class GreedyAI(game: Game) extends AI {
     available * emptyWeight).toInt
   }
 
-  def tempAI(game: Game): GreedyAI = {
+  def tempAI(game: Game): AI = {
     new GreedyAI(game)
   }
 
