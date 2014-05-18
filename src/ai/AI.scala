@@ -1,6 +1,7 @@
 package ai
 
 import gamelogic._
+import java.util
 
 trait AI {
   /**
@@ -31,22 +32,21 @@ trait AI {
   def search(manager: GameManager, game: Game, depth: Int, alpha: Int, beta: Int): (Direction, Int) = {
     var bestScore = alpha
     var bestMove: Direction = NoDirection
-    var move: Direction = NoDirection
     var score = alpha
-
     for ( direction <- List(Left, Right, Up, Down) ) {
       var newState = manager.clone
       newState = game.move(newState, direction)
       if ( newState.moved ) {
-        if ( newState.win )
+        if ( newState.win ) {
           return (direction, 10000)
+        }
 
         val newAI: AI = tempAI(game)
         if ( depth == 0 ) {
-          move = direction; score = newAI.eval(newState)
+          score = newAI.eval(newState)
         } else {
-          val (a, b) = newAI.search(newState, game, depth - 1, bestScore, beta)
-          move = a; score = b
+          val (_, b) = newAI.search(newState, game, depth - 1, bestScore, beta)
+          score = b
           if ( score > 9900 )
             score -= 1 // win, slightly penalizing higher depth from win
         }
@@ -56,8 +56,9 @@ trait AI {
           bestMove = direction
         }
 
-        if ( bestScore > beta )
+        if ( bestScore > beta ) {
           return (bestMove, beta)
+        }
       }
     }
     (bestMove, bestScore)

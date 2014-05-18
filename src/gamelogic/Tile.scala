@@ -22,7 +22,7 @@ class Tile(cValue: Int) {
     case _ =>    new Color(0xcdc1b4)
   }
 
-  def getForeground: Color = if (value < 16) new Color(0x776e65) else new Color(0xf9f6f2)
+  def getForeground: Color = if ( value < 16 ) new Color(0x776e65) else new Color(0xf9f6f2)
 
   def isEmpty: Boolean = value == 0
 }

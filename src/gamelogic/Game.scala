@@ -23,6 +23,9 @@ object Game {
     manager.resetGame()
     ai = new SmoothAI(game)
 
+    /*for ( x <- 0 to 3; y <- 0 to 3 )
+      println("(x" + x + ", y" + y + ") - " + manager.tileAt(x, y).value)*/
+
     while ( running ) {
       manager = game.move(manager, ai.getBest(manager))
       game.repaint()
